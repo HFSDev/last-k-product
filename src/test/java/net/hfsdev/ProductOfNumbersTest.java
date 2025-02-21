@@ -9,6 +9,42 @@ import org.junit.jupiter.api.Test;
 class ProductOfNumbersTest {
 
     @Test
+    void testInputAddConstraintNumberMustBeGTE0AndLTE100(){
+        ProductOfNumbers productOfNumbers = new ProductOfNumbers();
+        assertAll(
+                ()->assertThatThrownBy(()->productOfNumbers.add(-1)).isInstanceOf(IllegalArgumentException.class),
+                ()->assertThatThrownBy(()->productOfNumbers.add(101)).isInstanceOf(IllegalArgumentException.class)
+        );
+    }
+
+    @Test
+    void testInputKIsGTE1(){
+        ProductOfNumbers productOfNumbers = new ProductOfNumbers();
+        productOfNumbers.add(1);
+        productOfNumbers.add(2);
+        assertThatThrownBy(()->productOfNumbers.getProduct(0)).isInstanceOf(IllegalArgumentException.class);
+
+    }
+
+    @Test
+    void testInputKIsGreaterThanNumberOfElementsInList(){
+        ProductOfNumbers productOfNumbers = new ProductOfNumbers();
+        productOfNumbers.add(1);
+        productOfNumbers.add(2);
+        assertThatThrownBy(()->productOfNumbers.getProduct(3)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void testInputKIsGreaterThanListCapacity(){
+        ProductOfNumbers productOfNumbers = new ProductOfNumbers();
+        for(int i=0;i<ProductOfNumbers.MAX_ELEMENTS;i++){
+            productOfNumbers.add(1);
+        }
+        assertThatThrownBy(()->productOfNumbers.getProduct(ProductOfNumbers.MAX_ELEMENTS + 1))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     void testProductOfNumbersGreaterThanNumberOfElementsIsNotAllowed(){
         ProductOfNumbers productOfNumbers = new ProductOfNumbers();
         productOfNumbers.add(5);
